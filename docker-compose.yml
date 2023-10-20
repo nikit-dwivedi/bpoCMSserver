@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  lb:
+    image: haproxy
+    ports:
+      - "8801:8080"
+    restart: always
+    networks:
+      bpo:
+        ipv4_address: 172.80.0.2 # Assign a static IP address to the lb service
+    volumes:
+      - ./haproxy:/usr/local/etc/haproxy
+
+  bpoCMS1:
+    image: bpoCMS
+    environment:
+      - APPID=1111
+    restart: always
+    networks:
+      bpo:
+        ipv4_address: 172.80.0.3 # Assign a static IP address to bpoCMS1
+
+  bpoCMS2:
+    image: bpoCMS
+    environment:
+      - APPID=2222
+    restart: always
+    networks:
+      bpo:
+        ipv4_address: 172.80.0.4 # Assign a static IP address to bpoCMS2
+
+  bpoCMS3:
+    image: bpoCMS
+    environment:
+      - APPID=3333
+    restart: always
+    networks:
+      bpo:
+        ipv4_address: 172.80.0.5 # Assign a static IP address to bpoCMS3
+
+  bpoCMS4:
+    image: bpoCMS
+    environment:
+      - APPID=4444
+    restart: always
+    networks:
+      bpo:
+        ipv4_address: 172.80.0.6 # Assign a static IP address to bpoCMS4
+
+networks:
+  bpo:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.80.0.0/16 # Define a subnet for your custom network named "bpo"
