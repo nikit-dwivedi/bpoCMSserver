@@ -51,6 +51,7 @@ exports.splitListIntoChunks = async (chunkCount) => {
     try {
         const data = await getPeersStatuses()
         const filteredData = data.data.data.filter((user) => user.state === "OK")
+        console.log("===============",filteredData);
         const leads = await LeadModel.find({});
         const chunkSize = Math.ceil(leads.length / filteredData.length);
         const result = [];

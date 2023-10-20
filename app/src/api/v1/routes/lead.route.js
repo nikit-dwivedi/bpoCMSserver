@@ -8,8 +8,8 @@ router.post('/', createLeadAndRespond);
 router.get('/all', readAllLeadsAndRespond);
 router.post('/:leadId/status', changeLeadStatusAndRespond);
 router.post('/excel', uploads.single('lead'), uploadExcel);
-router.get('/:status', filterLeadsByStatusAndRespond);
-router.get('/split/:chunkSize', splitListIntoChunksAndRespond);
+router.get('/filter/:status', filterLeadsByStatusAndRespond);
+router.get('/split', splitListIntoChunksAndRespond);
 router.post('/login', login);
 
 module.exports = router;
