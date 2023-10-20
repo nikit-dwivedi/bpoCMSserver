@@ -66,6 +66,7 @@ exports.uploadExcel = async (req, res) => {
     try {
         const file = req.file
         const result = await uploadExcelDataToMongo(file.path)
+      
         res.status(201).json({ message: 'Excel uploaded successfully', data: result });
     } catch (error) {
         console.error(error);
