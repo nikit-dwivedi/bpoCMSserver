@@ -54,7 +54,7 @@ exports.filterLeadsByStatusAndRespond = async (req, res) => {
 // Function to split the list into chunks and send a custom response
 exports.splitListIntoChunksAndRespond = async (req, res) => {
     try {
-        const result = await splitListIntoChunks(req.params.chunkSize);
+        const result = await splitListIntoChunks();
         res.status(200).json({ message: 'List split into chunks successfully', data: result });
     } catch (error) {
         console.error(error);

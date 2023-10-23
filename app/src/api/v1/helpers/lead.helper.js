@@ -47,11 +47,11 @@ exports.filterLeadsByStatus = async (status) => {
 }
 
 // Function to split the list into the specified number of chunks
-exports.splitListIntoChunks = async (chunkCount) => {
+exports.splitListIntoChunks = async () => {
     try {
         const data = await getPeersStatuses()
         const filteredData = data.data.data.filter((user) => user.state === "OK")
-        const leads = await LeadModel.find({});
+        const leads = await LeadModel.find({ status: "pending" });
         const chunkSize = Math.ceil(leads.length / filteredData.length);
         let result = {};
         userCount = 0
