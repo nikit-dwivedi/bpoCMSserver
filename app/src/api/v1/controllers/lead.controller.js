@@ -66,6 +66,9 @@ exports.splitListIntoChunksAndRespond = async (req, res) => {
 exports.uploadExcel = async (req, res) => {
     try {
         const file = req.file
+        if (!file) {
+            return  res.status(400).json({ message: 'please choose a file' });
+        }
         const result = await uploadExcelDataToMongo(file.path)
 
         res.status(201).json({ message: 'Excel uploaded successfully', data: result });
