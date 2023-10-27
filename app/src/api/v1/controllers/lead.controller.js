@@ -30,7 +30,7 @@ exports.readAllLeadsAndRespond = async (req, res) => {
 // Function to change the status of a lead and send a custom response
 exports.changeLeadStatusAndRespond = async (req, res) => {
     try {
-        const result = await changeLeadStatus(req.params.leadId, req.body.status);
+        const result = await changeLeadStatus(req.params.leadId, req.body);
         // Custom response logic, if needed
         res.status(200).json({ message: 'Lead status changed successfully', data: result });
     } catch (error) {
@@ -54,6 +54,7 @@ exports.filterLeadsByStatusAndRespond = async (req, res) => {
 // Function to split the list into chunks and send a custom response
 exports.splitListIntoChunksAndRespond = async (req, res) => {
     try {
+        
         const result = await splitListIntoChunks();
         res.status(200).json({ message: 'List split into chunks successfully', data: result });
     } catch (error) {
@@ -66,11 +67,12 @@ exports.uploadExcel = async (req, res) => {
     try {
         const file = req.file
         const result = await uploadExcelDataToMongo(file.path)
-      
+
         res.status(201).json({ message: 'Excel uploaded successfully', data: result });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
+        throw error
     }
 }
 

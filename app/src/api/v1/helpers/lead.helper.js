@@ -27,9 +27,13 @@ exports.readAllLeads = async () => {
 }
 
 // Function to change the status of a lead document
-exports.changeLeadStatus = async (leadId, newStatus) => {
+exports.changeLeadStatus = async (leadId, bodyData) => {
     try {
-        const result = await LeadModel.updateOne({ leadId }, { $set: { status: newStatus } });
+        const { status, remark, userId } = bodyData
+        if (!userId || !status) {
+            throw new Error("invalid data provided")
+        }
+        const result = await LeadModel.findOneAndUpdate({ leadId }, { status, remark, userId });
         return result;
     } catch (error) {
         throw error;
@@ -53,7 +57,10 @@ exports.splitListIntoChunks = async () => {
         const filteredData = data.data.data.filter((user) => user.state === "OK")
         const leads = await LeadModel.find({ status: "pending" });
         const chunkSize = Math.ceil(leads.length / filteredData.length);
-        let result = {};
+        let result = filteredData.reduce((previousData, currentData) => {
+            previousData = { ...previousData, [currentData.id]: [] }
+            return previousData
+        }, {})
         userCount = 0
         for (let i = 0; i < leads.length; i += chunkSize) {
             const chunk = leads.slice(i, i + chunkSize);
@@ -61,12 +68,12 @@ exports.splitListIntoChunks = async () => {
                 user: filteredData[userCount],
                 [filteredData[userCount].id]: chunk
             }
-            result = { ...result, [filteredData[userCount].id]: chunk };
+            result[filteredData[userCount].id] = chunk
             userCount++
         }
-
         return result;
     } catch (error) {
+        console.log(error.message);
         throw error;
     }
 };
@@ -90,6 +97,7 @@ exports.uploadExcelDataToMongo = async (filePath) => {
 
         return result;
     } catch (error) {
+        console.log(error.message);
         throw error;
     }
 }

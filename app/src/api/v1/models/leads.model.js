@@ -7,6 +7,10 @@ const leadSchema = new Schema({
         required: true,
         unique: true
     },
+    userId: {
+        type: String,
+        default: ""
+    },
     serial: {
         type: Number,
         required: true
@@ -27,6 +31,10 @@ const leadSchema = new Schema({
         type: String,
         enum: ["pending", "call_back", "not_answered", "completed", "failed"],
         default: "pending"
+    },
+    remark: {
+        type: String,
+        default: ""
     },
     isActive: {
         type: Boolean,

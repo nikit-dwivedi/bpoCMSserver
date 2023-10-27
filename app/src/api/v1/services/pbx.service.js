@@ -64,7 +64,7 @@ async function getPeersStatuses() {
         return response
         // console.log('Response data:', response.data);
     } catch (error) {
-        console.log(error.response.status);
+        console.log(error);
 
         if (error.response.status == 401) {
             authenticateUser().then(() => { error.response = getPeersStatuses() })
