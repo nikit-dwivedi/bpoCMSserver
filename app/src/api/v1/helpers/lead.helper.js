@@ -69,6 +69,9 @@ exports.splitListIntoChunks = async () => {
                 [filteredData[userCount].id]: chunk
             }
             result[filteredData[userCount].id] = chunk
+            if (result[filteredData[userCount].id] == 210) {
+                result[filteredData[userCount].id] = []
+            }
             userCount++
         }
         return result;
