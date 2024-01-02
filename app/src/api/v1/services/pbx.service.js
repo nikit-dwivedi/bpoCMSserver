@@ -4,7 +4,7 @@ const path = require('path');
 const qs = require('querystring');
 const { formatUser } = require('../helpers/format.helper');
 
-const baseUrl = "http://10.2.0.90"
+const baseUrl = ""
 
 const admin = process.env.PBXUSER
 const password = process.env.PBXPASS
